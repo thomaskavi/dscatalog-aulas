@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.thomaskavi.dscatalog.dto.StandardError;
+import com.thomaskavi.dscatalog.services.exceptions.DatabaseException;
 import com.thomaskavi.dscatalog.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +19,13 @@ public class ControllerExceptionHandler {
   @ExceptionHandler(ResourceNotFoundException.class)
   public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException e, HttpServletRequest request) {
     HttpStatus status = HttpStatus.NOT_FOUND;
+    StandardError err = new StandardError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+    return ResponseEntity.status(status).body(err);
+  }
+
+  @ExceptionHandler(DatabaseException.class)
+  public ResponseEntity<StandardError> entityNotFound(DatabaseException e, HttpServletRequest request) {
+    HttpStatus status = HttpStatus.BAD_REQUEST;
     StandardError err = new StandardError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
     return ResponseEntity.status(status).body(err);
   }
