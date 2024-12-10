@@ -5,14 +5,25 @@ import java.util.Set;
 
 import com.thomaskavi.dscatalog.entities.User;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+
 public class UserDTO {
 
   private Long id;
+
+  @NotBlank(message = "O primeiro nome é obrigatório e não pode estar vazio.")
   private String firstName;
+
   private String lastName;
+
+  @NotBlank(message = "O e-mail é obrigatório e não pode estar vazio.")
+  @Email(message = "Informe um e-mail válido no formato: exemplo@dominio.com.")
   private String email;
 
-  Set<RoleDTO> roles = new HashSet<>();
+  @NotEmpty(message = "O usuário deve ter pelo menos uma função associada.")
+  private Set<RoleDTO> roles = new HashSet<>();
 
   public UserDTO() {
   }

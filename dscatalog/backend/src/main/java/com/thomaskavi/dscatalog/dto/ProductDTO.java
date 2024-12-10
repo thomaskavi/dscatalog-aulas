@@ -8,13 +8,33 @@ import java.util.Set;
 import com.thomaskavi.dscatalog.entities.Category;
 import com.thomaskavi.dscatalog.entities.Product;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
 public class ProductDTO {
+
   private Long id;
+
+  @Size(min = 5, max = 60, message = "O nome do produto deve ter entre 5 e 60 caracteres")
+  @NotBlank(message = "O nome do produto é obrigatório e não pode estar vazio.")
   private String name;
+
+  @Size(max = 200, message = "Descrição muito longa")
+  @NotBlank(message = "A descrição do produto é obrigatória e não pode estar vazia.")
   private String description;
+
+  @Positive(message = "O preço do produto deve ser um valor positivo.")
   private Double price;
+
   private String imgUrl;
+
+  @PastOrPresent(message = "A data de criação do produto não pode ser uma data futura.")
   private Instant date;
+
+  @NotEmpty(message = "O produto deve estar associado a pelo menos uma categoria.")
   private List<CategoryDTO> categories = new ArrayList<>();
 
   public ProductDTO() {
