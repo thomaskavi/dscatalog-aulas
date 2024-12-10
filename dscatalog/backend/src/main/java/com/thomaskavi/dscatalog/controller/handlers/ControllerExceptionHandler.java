@@ -36,7 +36,7 @@ public class ControllerExceptionHandler {
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<StandardError> methodArgumentNotValidException(MethodArgumentNotValidException e,
+  public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e,
       HttpServletRequest request) {
 
     HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
