@@ -2,6 +2,7 @@ package com.thomaskavi.dscatalog.controller.handlers;
 
 import java.time.Instant;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -50,4 +51,12 @@ public class ControllerExceptionHandler {
     return ResponseEntity.status(status).body(err);
   }
 
+  @ExceptionHandler(DataIntegrityViolationException.class)
+  public ResponseEntity<StandardError> violation(DataIntegrityViolationException e, HttpServletRequest request) {
+    HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+    StandardError err = new StandardError(Instant.now(), status.value(),
+        "O email informado já está sendo utilizado por outro usuário",
+        e.getMessage(), request.getRequestURI());
+    return ResponseEntity.status(status).body(err);
+  }
 }
