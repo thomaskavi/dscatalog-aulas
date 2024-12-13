@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerMapping;
 
-import com.thomaskavi.dscatalog.dto.FieldMessageDTO;
+import com.thomaskavi.dscatalog.controller.handlers.FieldMessage;
 import com.thomaskavi.dscatalog.dto.UserUpdateDTO;
 import com.thomaskavi.dscatalog.entities.User;
 import com.thomaskavi.dscatalog.repository.UserRepository;
@@ -35,14 +35,14 @@ public class UserUpdateValidator implements ConstraintValidator<UserUpdateValid,
     var uriVars = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
     long userId = Long.parseLong(uriVars.get("id"));
 
-    List<FieldMessageDTO> list = new ArrayList<>();
+    List<FieldMessage> list = new ArrayList<>();
     User user = repository.findByEmail(dto.getEmail());
 
     if (user != null && userId != user.getId()) {
-      list.add(new FieldMessageDTO("email", "Email já está sendo utilizado por outro usuário"));
+      list.add(new FieldMessage("email", "Email já está sendo utilizado por outro usuário"));
     }
 
-    for (FieldMessageDTO e : list) {
+    for (FieldMessage e : list) {
       context.disableDefaultConstraintViolation();
       context.buildConstraintViolationWithTemplate(e.getMessage()).addPropertyNode(e.getFieldName())
           .addConstraintViolation();

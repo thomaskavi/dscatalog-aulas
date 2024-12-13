@@ -10,8 +10,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.thomaskavi.dscatalog.dto.StandardError;
-import com.thomaskavi.dscatalog.dto.ValidationError;
 import com.thomaskavi.dscatalog.services.exceptions.DatabaseException;
 import com.thomaskavi.dscatalog.services.exceptions.ResourceNotFoundException;
 

@@ -1,4 +1,4 @@
-package com.thomaskavi.dscatalog.dto;
+package com.thomaskavi.dscatalog.controller.handlers;
 
 import java.time.Instant;
 

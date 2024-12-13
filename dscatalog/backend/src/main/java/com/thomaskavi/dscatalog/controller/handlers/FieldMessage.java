@@ -1,11 +1,11 @@
-package com.thomaskavi.dscatalog.dto;
+package com.thomaskavi.dscatalog.controller.handlers;
 
-public class FieldMessageDTO {
+public class FieldMessage {
 
   private String fieldName;
   private String message;
 
-  public FieldMessageDTO(String fieldName, String message) {
+  public FieldMessage(String fieldName, String message) {
     this.fieldName = fieldName;
     this.message = message;
   }
