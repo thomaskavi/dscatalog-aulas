@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.thomaskavi.dscatalog.services.exceptions.DatabaseException;
+import com.thomaskavi.dscatalog.services.exceptions.EmailException;
 import com.thomaskavi.dscatalog.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -54,6 +55,14 @@ public class ControllerExceptionHandler {
     HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
     StandardError err = new StandardError(Instant.now(), status.value(),
         "O email informado já está sendo utilizado por outro usuário",
+        e.getMessage(), request.getRequestURI());
+    return ResponseEntity.status(status).body(err);
+  }
+
+  @ExceptionHandler(EmailException.class)
+  public ResponseEntity<StandardError> email(EmailException e, HttpServletRequest request) {
+    HttpStatus status = HttpStatus.BAD_REQUEST;
+    StandardError err = new StandardError(Instant.now(), status.value(), "Email exception",
         e.getMessage(), request.getRequestURI());
     return ResponseEntity.status(status).body(err);
   }
