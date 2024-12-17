@@ -3,11 +3,13 @@ package com.thomaskavi.dscatalog.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thomaskavi.dscatalog.dto.EmailDTO;
+import com.thomaskavi.dscatalog.dto.NewPasswordDTO;
 import com.thomaskavi.dscatalog.services.AuthService;
 
 import jakarta.validation.Valid;
@@ -25,4 +27,9 @@ public class AuthController {
     return ResponseEntity.noContent().build();
   }
 
+  @PutMapping(value = "/new-password")
+  public ResponseEntity<Void> saveNewPassword(@Valid @RequestBody NewPasswordDTO body) {
+    service.saveNewPassword(body);
+    return ResponseEntity.noContent().build();
+  }
 }
