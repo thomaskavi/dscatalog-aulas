@@ -7,7 +7,6 @@ import com.thomaskavi.dscatalog.entities.User;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 
 public class UserDTO {
 
@@ -22,7 +21,7 @@ public class UserDTO {
   @Email(message = "Informe um e-mail válido no formato: exemplo@dominio.com.")
   private String email;
 
-  @NotEmpty(message = "O usuário deve ter pelo menos uma função associada.")
+  // @NotEmpty(message = "O usuário deve ter pelo menos uma função associada.")
   private Set<RoleDTO> roles = new HashSet<>();
 
   public UserDTO() {
