@@ -1,5 +1,6 @@
 package com.thomaskavi.dscatalog.services;
 
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -12,9 +13,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.thomaskavi.dscatalog.dto.CategoryDTO;
 import com.thomaskavi.dscatalog.dto.ProductDTO;
+import com.thomaskavi.dscatalog.dto.UriDTO;
 import com.thomaskavi.dscatalog.entities.Category;
 import com.thomaskavi.dscatalog.entities.Product;
 import com.thomaskavi.dscatalog.projections.ProductProjection;
@@ -28,6 +31,9 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductService {
+
+  @Autowired
+  private S3Service s3Service;
 
   @Autowired
   private ProductRepository repository;
@@ -110,5 +116,10 @@ public class ProductService {
 
     Page<ProductDTO> pageDto = new PageImpl<>(dtos, page.getPageable(), page.getTotalElements());
     return pageDto;
+  }
+
+  public UriDTO uploadFile(MultipartFile file) {
+    URL url = s3Service.uploadFile(file);
+    return new UriDTO(url.toString());
   }
 }

@@ -10,6 +10,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
 import com.thomaskavi.dscatalog.services.exceptions.DatabaseException;
 import com.thomaskavi.dscatalog.services.exceptions.EmailException;
 import com.thomaskavi.dscatalog.services.exceptions.ResourceNotFoundException;
@@ -64,6 +66,30 @@ public class ControllerExceptionHandler {
     HttpStatus status = HttpStatus.BAD_REQUEST;
     StandardError err = new StandardError(Instant.now(), status.value(), "Email exception",
         e.getMessage(), request.getRequestURI());
+    return ResponseEntity.status(status).body(err);
+  }
+
+  @ExceptionHandler(AmazonServiceException.class)
+  public ResponseEntity<StandardError> amazonService(AmazonServiceException e, HttpServletRequest request) {
+    HttpStatus status = HttpStatus.BAD_REQUEST;
+    StandardError err = new StandardError(Instant.now(), status.value(), "AWS Exception", e.getMessage(),
+        request.getRequestURI());
+    return ResponseEntity.status(status).body(err);
+  }
+
+  @ExceptionHandler(AmazonClientException.class)
+  public ResponseEntity<StandardError> amazonClient(AmazonClientException e, HttpServletRequest request) {
+    HttpStatus status = HttpStatus.BAD_REQUEST;
+    StandardError err = new StandardError(Instant.now(), status.value(), "AWS Exception", e.getMessage(),
+        request.getRequestURI());
+    return ResponseEntity.status(status).body(err);
+  }
+
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<StandardError> illegalArgument(IllegalArgumentException e, HttpServletRequest request) {
+    HttpStatus status = HttpStatus.BAD_REQUEST;
+    StandardError err = new StandardError(Instant.now(), status.value(), "Bad Request", e.getMessage(),
+        request.getRequestURI());
     return ResponseEntity.status(status).body(err);
   }
 }
